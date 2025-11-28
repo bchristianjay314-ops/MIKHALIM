@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework & Deadline Reminder App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="app-title">📚 Homework Reminder</h1>
+                <p class="app-subtitle">Stay Organized, Stay Stress-Free</p>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+            <button class="tab-btn" data-tab="tasks">Tasks</button>
+            <button class="tab-btn" data-tab="calendar">Calendar</button>
+            <button class="tab-btn" data-tab="progress">Progress</button>
+        </nav>
+
+        <!-- Dashboard Tab -->
+        <section id="dashboard" class="tab-content active">
+            <div class="dashboard-grid">
+                <div class="stat-card urgent">
+                    <div class="stat-icon">⚠️</div>
+                    <div class="stat-info">
+                        <h3>Urgent Tasks</h3>
+                        <p class="stat-number" id="urgent-count">0</p>
+                    </div>
+                </div>
+                <div class="stat-card upcoming">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-info">
+                        <h3>Upcoming</h3>
+                        <p class="stat-number" id="upcoming-count">0</p>
+                    </div>
+                </div>
+                <div class="stat-card completed">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <h3>Completed</h3>
+                        <p class="stat-number" id="completed-count">0</p>
+                    </div>
+                </div>
+                <div class="stat-card total">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-info">
+                        <h3>Total Tasks</h3>
+                        <p class="stat-number" id="total-count">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recent-tasks">
+                <h2>Recent Tasks</h2>
+                <div id="recent-tasks-list" class="tasks-list">
+                    <p class="empty-state">No tasks yet. Add your first task to get started!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tasks Tab -->
+        <section id="tasks" class="tab-content">
+            <div class="tasks-header">
+                <h2>My Tasks</h2>
+                <button class="btn btn-primary" id="add-task-btn">+ Add New Task</button>
+            </div>
+
+            <!-- Add Task Form -->
+            <div id="task-form" class="task-form hidden">
+                <h3>Add New Task</h3>
+                <form id="new-task-form">
+                    <div class="form-group">
+                        <label for="task-title">Task Title</label>
+                        <input type="text" id="task-title" required placeholder="e.g., Math Homework Chapter 5">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="task-subject">Subject</label>
+                            <select id="task-subject" required>
+                                <option value="">Select Subject</option>
+                                <option value="Math">Math</option>
+                                <option value="Science">Science</option>
+                                <option value="English">English</option>
+                                <option value="History">History</option>
+                                <option value="Art">Art</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="task-priority">Priority</label>
+                            <select id="task-priority" required>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="task-deadline">Deadline</label>
+                            <input type="datetime-local" id="task-deadline" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="task-difficulty">Difficulty</label>
+                            <select id="task-difficulty">
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-time">Estimated Time (hours)</label>
+                        <input type="number" id="task-time" min="0.5" step="0.5" placeholder="2.5">
+                    </div>
+                    <div class="form-group">
+                        <label for="task-notes">Notes</label>
+                        <textarea id="task-notes" rows="3" placeholder="Additional notes..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Add Task</button>
+                        <button type="button" class="btn btn-secondary" id="cancel-task-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Filter and Sort -->
+            <div class="task-filters">
+                <select id="filter-subject" class="filter-select">
+                    <option value="">All Subjects</option>
+                </select>
+                <select id="filter-priority" class="filter-select">
+                    <option value="">All Priorities</option>
+                    <option value="urgent">Urgent</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+                <select id="filter-status" class="filter-select">
+                    <option value="all">All Tasks</option>
+                    <option value="pending">Pending</option>
+                    <option value="completed">Completed</option>
+                </select>
+            </div>
+
+            <!-- Tasks List -->
+            <div id="tasks-list" class="tasks-list">
+                <p class="empty-state">No tasks found. Click "Add New Task" to create your first task!</p>
+            </div>
+        </section>
+
+        <!-- Calendar Tab -->
+        <section id="calendar" class="tab-content">
+            <div class="calendar-header">
+                <h2>Calendar View</h2>
+                <div class="calendar-controls">
+                    <button class="btn btn-icon" id="prev-month">←</button>
+                    <span id="current-month-year">January 2024</span>
+                    <button class="btn btn-icon" id="next-month">→</button>
+                </div>
+            </div>
+            <div class="calendar-view">
+                <div class="calendar-grid" id="calendar-grid">
+                    <!-- Calendar will be generated by JavaScript -->
+                </div>
+            </div>
+            <div class="calendar-legend">
+                <div class="legend-item">
+                    <span class="legend-color urgent"></span>
+                    <span>Urgent</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color high"></span>
+                    <span>High Priority</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color medium"></span>
+                    <span>Medium Priority</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color low"></span>
+                    <span>Low Priority</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Tab -->
+        <section id="progress" class="tab-content">
+            <h2>Progress Tracking</h2>
+            <div class="progress-stats">
+                <div class="progress-card">
+                    <h3>Completion Rate</h3>
+                    <div class="progress-circle">
+                        <svg class="progress-ring" width="120" height="120">
+                            <circle class="progress-ring-circle" cx="60" cy="60" r="54" fill="transparent" stroke="#e0e0e0" stroke-width="8"/>
+                            <circle class="progress-ring-progress" cx="60" cy="60" r="54" fill="transparent" stroke="#4CAF50" stroke-width="8" stroke-dasharray="339.292" stroke-dashoffset="339.292"/>
+                        </svg>
+                        <div class="progress-percentage" id="completion-percentage">0%</div>
+                    </div>
+                </div>
+                <div class="progress-card">
+                    <h3>Tasks by Subject</h3>
+                    <div id="subject-chart" class="subject-chart">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            <div class="progress-timeline">
+                <h3>Recent Activity</h3>
+                <div id="activity-timeline" class="timeline">
+                    <p class="empty-state">No activity yet</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
